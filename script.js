@@ -44,7 +44,10 @@ let matrix = [
 ]
 for(let i=0;i<40;i++){
     for(let j=0;j<20;j++){
-       matrix[i][j]=Math.floor(Math.random()*2);
+        let randNum=Math.floor(Math.random()*100);
+        if(randNum<62)matrix[i][j]=0;
+        else matrix[i][j]=1;
+
    }   
    }
 for(let i=0;i<=20;i++){
@@ -60,24 +63,40 @@ for(let i=0;i<=40;i++){
 }
 for(let i=0;i<40;i++){
  for(let j=0;j<20;j++){
-    if(matrix[i][j]!=0){
+    if(matrix[i][j]!=0 && matrix[i][j]!=-1){
         context.fillStyle ="black";
         context.fillRect(20*j,20*i,20,20);
-    }else if(matrix[i][j]==0){
+    }else if(matrix[i][j]==0 && i==0){
         if(i==0){
             context.fillStyle ="#1d6ef0";
             matrix[i][j]=-1;
             context.fillRect(20*j,20*i,20,20);
-        }else if(matrix[i-1][j]==-1||matrix[i][j-1]==-1||matrix[i][j+1]==-1){
+            recursion(i,j,matrix);
+        }else if(matrix[i][j]=-1){
             matrix[i][j]=-1;
-            console.log(i);
-            console.log(j);
-            context.fillStyle ="#1d6ef0";
-            context.fillRect(20*j,20*i,20,20);
+            
+            // if(matrix[i][j-1]==0){
+            //     context.fillStyle ="#1d6ef0";
+            //     matrix[i][j]=-1;
+            //     context.fillRect(20*j,20*i,20,20);
+            // }
+            // if(matrix[i][j+1]==0){
+            //     context.fillStyle ="#1d6ef0";
+            //     matrix[i][j]=-1;
+            //     context.fillRect(20*j,20*i,20,20);
+            // }
+            // context.fillStyle ="#1d6ef0";
+            // context.fillRect(20*j,20*i,20,20);
         }
         
     }
 }   
+}
+for(let i=0;i<20;i++){
+    if(matrix[39][i]==-1){
+        document.querySelector("body").style.background="green";
+        document.querySelector("h1").style.display="block";
+    }
 }
 let y=0;
 let i=14;
@@ -94,3 +113,25 @@ let i=14;
 //     }
 //     i++;
 // },500);
+function recursion(i,j,arr){
+    context.fillStyle ="#1d6ef0";
+    matrix[i][j]=-1;
+    context.fillRect(20*j,20*i,20,20);
+    if(i>0 && arr[i-1][j]==0){
+        recursion(i-1,j,arr);
+    }
+    if(i<39 &&arr[i+1][j]==0){
+        recursion(i+1,j,arr);
+    }
+    if(j<19 &&arr[i][j+1]==0){
+        recursion(i,j+1,arr);
+    }
+    if(arr[i][j-1]==0){
+        recursion(i,j-1,arr);
+    }
+    
+    
+    
+
+
+}
